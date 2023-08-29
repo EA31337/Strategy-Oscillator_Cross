@@ -9,7 +9,6 @@ enum ENUM_STG_OSCILLATOR_CROSS_TYPE {
   STG_OSCILLATOR_CROSS_TYPE_0_NONE = 0,  // (None)
   STG_OSCILLATOR_CROSS_TYPE_ADX,         // ADX
   STG_OSCILLATOR_CROSS_TYPE_ADXW,        // ADXW
-  STG_OSCILLATOR_CROSS_TYPE_GATOR,       // Gator
   STG_OSCILLATOR_CROSS_TYPE_MACD,        // MACD
   STG_OSCILLATOR_CROSS_TYPE_RVI,         // RVI: Relative Vigor Index
 };
@@ -49,18 +48,6 @@ INPUT int Oscillator_Cross_Indi_ADXW_Period = 16;                               
 INPUT ENUM_APPLIED_PRICE Oscillator_Cross_Indi_ADXW_AppliedPrice = PRICE_TYPICAL;    // Applied price
 INPUT int Oscillator_Cross_Indi_ADXW_Shift = 0;                                      // Shift
 INPUT ENUM_IDATA_SOURCE_TYPE Oscillator_Cross_Indi_ADXW_SourceType = IDATA_BUILTIN;  // Source type
-INPUT_GROUP("Oscillator strategy: Gator indicator params");
-INPUT ENUM_GATOR_HISTOGRAM Oscillator_Cross_Indi_Gator_Fast_Line = LINE_UPPER_HISTOGRAM;  // Fast line
-INPUT ENUM_GATOR_HISTOGRAM Oscillator_Cross_Indi_Gator_Slow_Line = LINE_LOWER_HISTOGRAM;  // Slow line
-INPUT int Oscillator_Indi_Gator_Period_Jaw = 30;                                          // Jaw Period
-INPUT int Oscillator_Indi_Gator_Period_Teeth = 14;                                        // Teeth Period
-INPUT int Oscillator_Indi_Gator_Period_Lips = 6;                                          // Lips Period
-INPUT int Oscillator_Indi_Gator_Shift_Jaw = 2;                                            // Jaw Shift
-INPUT int Oscillator_Indi_Gator_Shift_Teeth = 2;                                          // Teeth Shift
-INPUT int Oscillator_Indi_Gator_Shift_Lips = 4;                                           // Lips Shift
-INPUT ENUM_MA_METHOD Oscillator_Indi_Gator_MA_Method = (ENUM_MA_METHOD)1;                 // MA Method
-INPUT ENUM_APPLIED_PRICE Oscillator_Indi_Gator_Applied_Price = PRICE_OPEN;                // Applied Price
-INPUT int Oscillator_Indi_Gator_Shift = 0;                                                // Shift
 INPUT_GROUP("Oscillator strategy: MACD indicator params");
 INPUT ENUM_SIGNAL_LINE Oscillator_Cross_Indi_MACD_Fast_Line = LINE_SIGNAL;  // Fast line
 INPUT ENUM_SIGNAL_LINE Oscillator_Cross_Indi_MACD_Slow_Line = LINE_MAIN;    // Slow line
@@ -138,10 +125,6 @@ class Stg_Oscillator_Cross : public Strategy {
         _result &= dynamic_cast<Indi_ADXW *>(_indi).GetFlag(INDI_ENTRY_FLAG_IS_VALID, _shift) &&
                    dynamic_cast<Indi_ADXW *>(_indi).GetFlag(INDI_ENTRY_FLAG_IS_VALID, _shift + 1);
         break;
-      case STG_OSCILLATOR_CROSS_TYPE_GATOR:
-        _result &= dynamic_cast<Indi_Gator *>(_indi).GetFlag(INDI_ENTRY_FLAG_IS_VALID, _shift) &&
-                   dynamic_cast<Indi_Gator *>(_indi).GetFlag(INDI_ENTRY_FLAG_IS_VALID, _shift + 1);
-        break;
       case STG_OSCILLATOR_CROSS_TYPE_MACD:
         _result &= dynamic_cast<Indi_MACD *>(_indi).GetFlag(INDI_ENTRY_FLAG_IS_VALID, _shift) &&
                    dynamic_cast<Indi_MACD *>(_indi).GetFlag(INDI_ENTRY_FLAG_IS_VALID, _shift + 1);
@@ -184,19 +167,6 @@ class Stg_Oscillator_Cross : public Strategy {
         // sparams.SetLineFast(0); // @todo: Fix Strategy to allow custom params stored in sparam.
         ssparams.SetLineFast((uint)Oscillator_Cross_Indi_ADXW_Fast_Line);
         ssparams.SetLineSlow((uint)Oscillator_Cross_Indi_ADXW_Slow_Line);
-        break;
-      }
-      case STG_OSCILLATOR_CROSS_TYPE_GATOR:  // Gator
-      {
-        IndiGatorParams _indi_params(::Oscillator_Indi_Gator_Period_Jaw, ::Oscillator_Indi_Gator_Shift_Jaw,
-                                     ::Oscillator_Indi_Gator_Period_Teeth, ::Oscillator_Indi_Gator_Shift_Teeth,
-                                     ::Oscillator_Indi_Gator_Period_Lips, ::Oscillator_Indi_Gator_Shift_Lips,
-                                     ::Oscillator_Indi_Gator_MA_Method, ::Oscillator_Indi_Gator_Applied_Price,
-                                     ::Oscillator_Indi_Gator_Shift);
-        _indi_params.SetTf(Get<ENUM_TIMEFRAMES>(STRAT_PARAM_TF));
-        SetIndicator(new Indi_Gator(_indi_params), ::Oscillator_Cross_Type);
-        ssparams.SetLineFast((uint)Oscillator_Cross_Indi_Gator_Fast_Line);
-        ssparams.SetLineSlow((uint)Oscillator_Cross_Indi_Gator_Slow_Line);
         break;
       }
       case STG_OSCILLATOR_CROSS_TYPE_MACD:  // MACD
