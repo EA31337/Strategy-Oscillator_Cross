@@ -18,7 +18,7 @@ INPUT_GROUP("Oscillator Cross strategy: main strategy params");
 INPUT ENUM_STG_OSCILLATOR_CROSS_TYPE Oscillator_Cross_Type = STG_OSCILLATOR_CROSS_TYPE_ADXW;  // Oscillator type
 INPUT_GROUP("Oscillator Cross strategy: strategy params");
 INPUT float Oscillator_Cross_LotSize = 0;                // Lot size
-INPUT int Oscillator_Cross_SignalOpenMethod = 0;         // Signal open method
+INPUT int Oscillator_Cross_SignalOpenMethod = 2;         // Signal open method
 INPUT float Oscillator_Cross_SignalOpenLevel = 10.0f;    // Signal open level
 INPUT int Oscillator_Cross_SignalOpenFilterMethod = 32;  // Signal open filter method
 INPUT int Oscillator_Cross_SignalOpenFilterTime = 3;     // Signal open filter time (0-31)
@@ -214,28 +214,28 @@ class Stg_Oscillator_Cross : public Strategy {
     switch (_cmd) {
       case ORDER_TYPE_BUY:
         // Buy signal.
+        _result &= _indi.IsIncreasing(1, _line_fast, _shift);
         _result &= _indi[_shift][_line_fast] > _indi[_shift][_line_slow];
         _result &= _indi[_shift + 1][_line_fast] < _indi[_shift + 1][_line_slow];
         _result &= Math::ChangeInPct(_indi[_shift + 1][_line_fast], _indi[_shift][_line_fast], true) > _level;
         if (_result && _method != 0) {
-          /*
-           if (METHOD(_method, 0)) _result &= _value_avg[1] < _value_avg[3];
-           if (METHOD(_method, 1))
-             _result &= fmax4(_value_avg[0], _value_avg[1], _value_avg[2], _value_avg[3]) == _value_avg[0];
-             */
+          _result &= _indi[_shift + 3][_line_fast] < _indi[_shift + 3][_line_slow];
+          if (METHOD(_method, 1))
+            _result &= fmax4(_indi[_shift][_line_fast], _indi[_shift + 1][_line_fast], _indi[_shift + 2][_line_fast],
+                             _indi[_shift + 3][_line_fast]) == _indi[_shift][_line_fast];
         }
         break;
       case ORDER_TYPE_SELL:
         // Sell signal.
+        _result &= _indi.IsDecreasing(1, _line_fast, _shift);
         _result &= _indi[_shift][_line_fast] < _indi[_shift][_line_slow];
         _result &= _indi[_shift + 1][_line_fast] > _indi[_shift + 1][_line_slow];
         _result &= Math::ChangeInPct(_indi[_shift + 1][_line_fast], _indi[_shift][_line_fast], true) < _level;
         if (_result && _method != 0) {
-          /*
-           if (METHOD(_method, 0)) _result &= _value_avg[1] > _value_avg[3];
-           if (METHOD(_method, 1))
-             _result &= fmin4(_value_avg[0], _value_avg[1], _value_avg[2], _value_avg[3]) == _value_avg[0];
-             */
+          if (METHOD(_method, 0)) _result &= _indi[_shift + 3][_line_fast] > _indi[_shift + 3][_line_slow];
+          if (METHOD(_method, 1))
+            _result &= fmin4(_indi[_shift][_line_fast], _indi[_shift + 1][_line_fast], _indi[_shift + 2][_line_fast],
+                             _indi[_shift + 3][_line_fast]) == _indi[_shift][_line_fast];
         }
         break;
     }
