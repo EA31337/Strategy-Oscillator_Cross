@@ -16,10 +16,10 @@ enum ENUM_STG_OSCILLATOR_CROSS_TYPE {
 
 // User input params.
 INPUT_GROUP("Oscillator Cross strategy: main strategy params");
-INPUT ENUM_STG_OSCILLATOR_CROSS_TYPE Oscillator_Cross_Type = STG_OSCILLATOR_CROSS_TYPE_RVI;  // Oscillator type
+INPUT ENUM_STG_OSCILLATOR_CROSS_TYPE Oscillator_Cross_Type = STG_OSCILLATOR_CROSS_TYPE_ADXW;  // Oscillator type
 INPUT_GROUP("Oscillator Cross strategy: strategy params");
 INPUT float Oscillator_Cross_LotSize = 0;                // Lot size
-INPUT int Oscillator_Cross_SignalOpenMethod = 2;         // Signal open method
+INPUT int Oscillator_Cross_SignalOpenMethod = 0;         // Signal open method
 INPUT float Oscillator_Cross_SignalOpenLevel = 10.0f;    // Signal open level
 INPUT int Oscillator_Cross_SignalOpenFilterMethod = 32;  // Signal open filter method
 INPUT int Oscillator_Cross_SignalOpenFilterTime = 3;     // Signal open filter time (0-31)
@@ -36,32 +36,42 @@ INPUT float Oscillator_Cross_OrderCloseLoss = 80;        // Order close loss
 INPUT float Oscillator_Cross_OrderCloseProfit = 80;      // Order close profit
 INPUT int Oscillator_Cross_OrderCloseTime = -30;         // Order close time in mins (>0) or bars (<0)
 INPUT_GROUP("Oscillator Cross strategy: ADX indicator params");
+INPUT ENUM_INDI_ADX_LINE Oscillator_Cross_Indi_ADX_Fast_Line = LINE_PLUSDI;         // Fast line
+INPUT ENUM_INDI_ADX_LINE Oscillator_Cross_Indi_ADX_Slow_Line = LINE_MINUSDI;        // Slow line to cross
 INPUT int Oscillator_Cross_Indi_ADX_Period = 16;                                    // Averaging period
 INPUT ENUM_APPLIED_PRICE Oscillator_Cross_Indi_ADX_AppliedPrice = PRICE_TYPICAL;    // Applied price
 INPUT int Oscillator_Cross_Indi_ADX_Shift = 0;                                      // Shift
 INPUT ENUM_IDATA_SOURCE_TYPE Oscillator_Cross_Indi_ADX_SourceType = IDATA_BUILTIN;  // Source type
 INPUT_GROUP("Oscillator Cross strategy: ADXW indicator params");
+INPUT ENUM_INDI_ADX_LINE Oscillator_Cross_Indi_ADXW_Fast_Line = LINE_PLUSDI;         // Fast line
+INPUT ENUM_INDI_ADX_LINE Oscillator_Cross_Indi_ADXW_Slow_Line = LINE_MINUSDI;        // Slow line to cross
 INPUT int Oscillator_Cross_Indi_ADXW_Period = 16;                                    // Averaging period
 INPUT ENUM_APPLIED_PRICE Oscillator_Cross_Indi_ADXW_AppliedPrice = PRICE_TYPICAL;    // Applied price
 INPUT int Oscillator_Cross_Indi_ADXW_Shift = 0;                                      // Shift
 INPUT ENUM_IDATA_SOURCE_TYPE Oscillator_Cross_Indi_ADXW_SourceType = IDATA_BUILTIN;  // Source type
 INPUT_GROUP("Oscillator strategy: Gator indicator params");
-INPUT int Oscillator_Indi_Gator_Period_Jaw = 30;                            // Jaw Period
-INPUT int Oscillator_Indi_Gator_Period_Teeth = 14;                          // Teeth Period
-INPUT int Oscillator_Indi_Gator_Period_Lips = 6;                            // Lips Period
-INPUT int Oscillator_Indi_Gator_Shift_Jaw = 2;                              // Jaw Shift
-INPUT int Oscillator_Indi_Gator_Shift_Teeth = 2;                            // Teeth Shift
-INPUT int Oscillator_Indi_Gator_Shift_Lips = 4;                             // Lips Shift
-INPUT ENUM_MA_METHOD Oscillator_Indi_Gator_MA_Method = (ENUM_MA_METHOD)1;   // MA Method
-INPUT ENUM_APPLIED_PRICE Oscillator_Indi_Gator_Applied_Price = PRICE_OPEN;  // Applied Price
-INPUT int Oscillator_Indi_Gator_Shift = 0;                                  // Shift
+INPUT ENUM_GATOR_HISTOGRAM Oscillator_Cross_Indi_Gator_Fast_Line = LINE_UPPER_HISTOGRAM;  // Fast line
+INPUT ENUM_GATOR_HISTOGRAM Oscillator_Cross_Indi_Gator_Slow_Line = LINE_LOWER_HISTOGRAM;  // Slow line
+INPUT int Oscillator_Indi_Gator_Period_Jaw = 30;                                          // Jaw Period
+INPUT int Oscillator_Indi_Gator_Period_Teeth = 14;                                        // Teeth Period
+INPUT int Oscillator_Indi_Gator_Period_Lips = 6;                                          // Lips Period
+INPUT int Oscillator_Indi_Gator_Shift_Jaw = 2;                                            // Jaw Shift
+INPUT int Oscillator_Indi_Gator_Shift_Teeth = 2;                                          // Teeth Shift
+INPUT int Oscillator_Indi_Gator_Shift_Lips = 4;                                           // Lips Shift
+INPUT ENUM_MA_METHOD Oscillator_Indi_Gator_MA_Method = (ENUM_MA_METHOD)1;                 // MA Method
+INPUT ENUM_APPLIED_PRICE Oscillator_Indi_Gator_Applied_Price = PRICE_OPEN;                // Applied Price
+INPUT int Oscillator_Indi_Gator_Shift = 0;                                                // Shift
 INPUT_GROUP("Oscillator strategy: MACD indicator params");
-INPUT int Oscillator_Indi_MACD_Period_Fast = 6;                            // Period Fast
-INPUT int Oscillator_Indi_MACD_Period_Slow = 34;                           // Period Slow
-INPUT int Oscillator_Indi_MACD_Period_Signal = 10;                         // Period Signal
-INPUT ENUM_APPLIED_PRICE Oscillator_Indi_MACD_Applied_Price = PRICE_OPEN;  // Applied Price
-INPUT int Oscillator_Indi_MACD_Shift = 0;                                  // Shift
+INPUT ENUM_SIGNAL_LINE Oscillator_Cross_Indi_MACD_Fast_Line = LINE_SIGNAL;  // Fast line
+INPUT ENUM_SIGNAL_LINE Oscillator_Cross_Indi_MACD_Slow_Line = LINE_MAIN;    // Slow line
+INPUT int Oscillator_Indi_MACD_Period_Fast = 6;                             // Period Fast
+INPUT int Oscillator_Indi_MACD_Period_Slow = 34;                            // Period Slow
+INPUT int Oscillator_Indi_MACD_Period_Signal = 10;                          // Period Signal
+INPUT ENUM_APPLIED_PRICE Oscillator_Indi_MACD_Applied_Price = PRICE_OPEN;   // Applied Price
+INPUT int Oscillator_Indi_MACD_Shift = 0;                                   // Shift
 INPUT_GROUP("Oscillator strategy: RVI indicator params");
+INPUT ENUM_SIGNAL_LINE Oscillator_Cross_Indi_RVI_Fast_Line = LINE_SIGNAL;           // Fast line
+INPUT ENUM_SIGNAL_LINE Oscillator_Cross_Indi_RVI_Slow_Line = LINE_MAIN;             // Slow line
 INPUT unsigned int Oscillator_Indi_RVI_Period = 12;                                 // Averaging period
 INPUT int Oscillator_Indi_RVI_Shift = 0;                                            // Shift
 INPUT ENUM_IDATA_SOURCE_TYPE Oscillator_Cross_Indi_RVI_SourceType = IDATA_BUILTIN;  // Source type
@@ -70,22 +80,34 @@ INPUT ENUM_IDATA_SOURCE_TYPE Oscillator_Cross_Indi_RVI_SourceType = IDATA_BUILTI
 
 // Defines struct with default user strategy values.
 struct Stg_Oscillator_Cross_Params_Defaults : StgParams {
+  uint line_fast, line_slow;
   Stg_Oscillator_Cross_Params_Defaults()
       : StgParams(::Oscillator_Cross_SignalOpenMethod, ::Oscillator_Cross_SignalOpenFilterMethod,
                   ::Oscillator_Cross_SignalOpenLevel, ::Oscillator_Cross_SignalOpenBoostMethod,
                   ::Oscillator_Cross_SignalCloseMethod, ::Oscillator_Cross_SignalCloseFilter,
                   ::Oscillator_Cross_SignalCloseLevel, ::Oscillator_Cross_PriceStopMethod,
                   ::Oscillator_Cross_PriceStopLevel, ::Oscillator_Cross_TickFilterMethod, ::Oscillator_Cross_MaxSpread,
-                  ::Oscillator_Cross_Shift) {
+                  ::Oscillator_Cross_Shift),
+        line_fast(0),
+        line_slow(0) {
     Set(STRAT_PARAM_LS, Oscillator_Cross_LotSize);
     Set(STRAT_PARAM_OCL, Oscillator_Cross_OrderCloseLoss);
     Set(STRAT_PARAM_OCP, Oscillator_Cross_OrderCloseProfit);
     Set(STRAT_PARAM_OCT, Oscillator_Cross_OrderCloseTime);
     Set(STRAT_PARAM_SOFT, Oscillator_Cross_SignalOpenFilterTime);
   }
+  // Getters.
+  uint GetLineFast() { return line_fast; }
+  uint GetLineSlow() { return line_slow; }
+  // Setters.
+  void SetLineFast(uint _value) { line_fast = _value; }
+  void SetLineSlow(uint _value) { line_slow = _value; }
 };
 
 class Stg_Oscillator_Cross : public Strategy {
+ protected:
+  Stg_Oscillator_Cross_Params_Defaults ssparams;
+
  public:
   Stg_Oscillator_Cross(StgParams &_sparams, TradeParams &_tparams, ChartParams &_cparams, string _name = "")
       : Strategy(_sparams, _tparams, _cparams, _name) {}
@@ -97,35 +119,9 @@ class Stg_Oscillator_Cross : public Strategy {
     // Initialize Strategy instance.
     ChartParams _cparams(_tf, _Symbol);
     TradeParams _tparams;
-    Strategy *_strat = new Stg_Oscillator_Cross(_stg_params, _tparams, _cparams, "Oscillator_Cross");
+    Stg_Oscillator_Cross *_strat = new Stg_Oscillator_Cross(_stg_params, _tparams, _cparams, "Oscillator_Cross");
+    _strat.ssparams = stg_oscillator_cross_defaults;
     return _strat;
-  }
-
-  /**
-   * Get's oscillator's max modes.
-   */
-  uint GetMaxModes(IndicatorBase *_indi) {
-    uint _result = 0;
-    switch (Oscillator_Cross_Type) {
-      case STG_OSCILLATOR_CROSS_TYPE_ADX:
-        _result = dynamic_cast<Indi_ADX *>(_indi).GetParams().GetMaxModes();
-        break;
-      case STG_OSCILLATOR_CROSS_TYPE_ADXW:
-        _result = dynamic_cast<Indi_ADXW *>(_indi).GetParams().GetMaxModes();
-        break;
-      case STG_OSCILLATOR_CROSS_TYPE_GATOR:
-        _result = dynamic_cast<Indi_Gator *>(_indi).GetParams().GetMaxModes();
-        break;
-      case STG_OSCILLATOR_CROSS_TYPE_MACD:
-        _result = dynamic_cast<Indi_MACD *>(_indi).GetParams().GetMaxModes();
-        break;
-      case STG_OSCILLATOR_CROSS_TYPE_RVI:
-        _result = dynamic_cast<Indi_RVI *>(_indi).GetParams().GetMaxModes();
-        break;
-      default:
-        break;
-    }
-    return _result;
   }
 
   /**
@@ -173,6 +169,9 @@ class Stg_Oscillator_Cross : public Strategy {
         _adx_params.SetDataSourceType(::Oscillator_Cross_Indi_ADX_SourceType);
         _adx_params.SetTf(Get<ENUM_TIMEFRAMES>(STRAT_PARAM_TF));
         SetIndicator(new Indi_ADX(_adx_params), ::Oscillator_Cross_Type);
+        // sparams.SetLineFast(0); // @todo: Fix Strategy to allow custom params stored in sparam.
+        ssparams.SetLineFast((uint)Oscillator_Cross_Indi_ADX_Fast_Line);
+        ssparams.SetLineSlow((uint)Oscillator_Cross_Indi_ADX_Slow_Line);
         break;
       }
       case STG_OSCILLATOR_CROSS_TYPE_ADXW:  // ADXW
@@ -182,6 +181,9 @@ class Stg_Oscillator_Cross : public Strategy {
         _adxw_params.SetDataSourceType(::Oscillator_Cross_Indi_ADXW_SourceType);
         _adxw_params.SetTf(Get<ENUM_TIMEFRAMES>(STRAT_PARAM_TF));
         SetIndicator(new Indi_ADXW(_adxw_params), ::Oscillator_Cross_Type);
+        // sparams.SetLineFast(0); // @todo: Fix Strategy to allow custom params stored in sparam.
+        ssparams.SetLineFast((uint)Oscillator_Cross_Indi_ADXW_Fast_Line);
+        ssparams.SetLineSlow((uint)Oscillator_Cross_Indi_ADXW_Slow_Line);
         break;
       }
       case STG_OSCILLATOR_CROSS_TYPE_GATOR:  // Gator
@@ -193,6 +195,8 @@ class Stg_Oscillator_Cross : public Strategy {
                                      ::Oscillator_Indi_Gator_Shift);
         _indi_params.SetTf(Get<ENUM_TIMEFRAMES>(STRAT_PARAM_TF));
         SetIndicator(new Indi_Gator(_indi_params), ::Oscillator_Cross_Type);
+        ssparams.SetLineFast((uint)Oscillator_Cross_Indi_Gator_Fast_Line);
+        ssparams.SetLineSlow((uint)Oscillator_Cross_Indi_Gator_Slow_Line);
         break;
       }
       case STG_OSCILLATOR_CROSS_TYPE_MACD:  // MACD
@@ -202,6 +206,8 @@ class Stg_Oscillator_Cross : public Strategy {
                                     ::Oscillator_Indi_MACD_Shift);
         _indi_params.SetTf(Get<ENUM_TIMEFRAMES>(STRAT_PARAM_TF));
         SetIndicator(new Indi_MACD(_indi_params), ::Oscillator_Cross_Type);
+        ssparams.SetLineFast((uint)Oscillator_Cross_Indi_MACD_Fast_Line);
+        ssparams.SetLineSlow((uint)Oscillator_Cross_Indi_MACD_Slow_Line);
         break;
       }
       case STG_OSCILLATOR_CROSS_TYPE_RVI:  // RVI
@@ -210,6 +216,8 @@ class Stg_Oscillator_Cross : public Strategy {
         _indi_params.SetDataSourceType(::Oscillator_Cross_Indi_RVI_SourceType);
         _indi_params.SetTf(Get<ENUM_TIMEFRAMES>(STRAT_PARAM_TF));
         SetIndicator(new Indi_RVI(_indi_params), ::Oscillator_Cross_Type);
+        ssparams.SetLineFast((uint)Oscillator_Cross_Indi_RVI_Fast_Line);
+        ssparams.SetLineSlow((uint)Oscillator_Cross_Indi_RVI_Slow_Line);
         break;
       }
       case STG_OSCILLATOR_CROSS_TYPE_0_NONE:  // (None)
@@ -223,41 +231,41 @@ class Stg_Oscillator_Cross : public Strategy {
    */
   bool SignalOpen(ENUM_ORDER_TYPE _cmd, int _method, float _level = 0.0f, int _shift = 0) {
     IndicatorBase *_indi = GetIndicator(::Oscillator_Cross_Type);
-    // uint _ishift = _indi.GetShift();
+    // uint _ishift = _indi.GetShift(); // @todo
     bool _result = Oscillator_Cross_Type != STG_OSCILLATOR_CROSS_TYPE_0_NONE && IsValidEntry(_indi, _shift);
     if (!_result) {
       // Returns false when indicator data is not valid.
       return false;
     }
-    float _value_avg[4] = {0.0f, 0.0f, 0.0f, 0.0f};
-    uint _max_modes = GetMaxModes(_indi);
-    for (int _vshift = 0; _vshift < ArraySize(_value_avg); _vshift++) {
-      for (uint _imode = 0; _imode < _max_modes; _imode++) {
-        _value_avg[_vshift] += (float)_indi[_shift + _vshift][(int)_imode];
-      }
-      _value_avg[_vshift] /= (float)_max_modes;
-    }
+    int _line_fast = (int)ssparams.GetLineFast();
+    int _line_slow = (int)ssparams.GetLineSlow();
+    double _value1 = _indi[_shift][_line_fast];
+    double _value2 = _indi[_shift][_line_slow];
     switch (_cmd) {
       case ORDER_TYPE_BUY:
         // Buy signal.
-        _result &= _value_avg[0] > _value_avg[1];
-        _result &= _value_avg[1] < _value_avg[2];
-        _result &= Math::ChangeInPct(_value_avg[1], _value_avg[0], true) > _level;
+        _result &= _indi[_shift][_line_fast] > _indi[_shift][_line_slow];
+        _result &= _indi[_shift + 1][_line_fast] < _indi[_shift + 1][_line_slow];
+        _result &= Math::ChangeInPct(_indi[_shift + 1][_line_fast], _indi[_shift][_line_fast], true) > _level;
         if (_result && _method != 0) {
-          if (METHOD(_method, 0)) _result &= _value_avg[1] < _value_avg[3];
-          if (METHOD(_method, 1))
-            _result &= fmax4(_value_avg[0], _value_avg[1], _value_avg[2], _value_avg[3]) == _value_avg[0];
+          /*
+           if (METHOD(_method, 0)) _result &= _value_avg[1] < _value_avg[3];
+           if (METHOD(_method, 1))
+             _result &= fmax4(_value_avg[0], _value_avg[1], _value_avg[2], _value_avg[3]) == _value_avg[0];
+             */
         }
         break;
       case ORDER_TYPE_SELL:
         // Sell signal.
-        _result &= _value_avg[0] < _value_avg[1];
-        _result &= _value_avg[1] > _value_avg[2];
-        _result &= Math::ChangeInPct(_value_avg[1], _value_avg[0], true) < _level;
+        _result &= _indi[_shift][_line_fast] < _indi[_shift][_line_slow];
+        _result &= _indi[_shift + 1][_line_fast] > _indi[_shift + 1][_line_slow];
+        _result &= Math::ChangeInPct(_indi[_shift + 1][_line_fast], _indi[_shift][_line_fast], true) < _level;
         if (_result && _method != 0) {
-          if (METHOD(_method, 0)) _result &= _value_avg[1] > _value_avg[3];
-          if (METHOD(_method, 1))
-            _result &= fmin4(_value_avg[0], _value_avg[1], _value_avg[2], _value_avg[3]) == _value_avg[0];
+          /*
+           if (METHOD(_method, 0)) _result &= _value_avg[1] > _value_avg[3];
+           if (METHOD(_method, 1))
+             _result &= fmin4(_value_avg[0], _value_avg[1], _value_avg[2], _value_avg[3]) == _value_avg[0];
+             */
         }
         break;
     }
