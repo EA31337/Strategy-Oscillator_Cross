@@ -49,18 +49,18 @@ INPUT ENUM_APPLIED_PRICE Oscillator_Cross_Indi_ADXW_AppliedPrice = PRICE_TYPICAL
 INPUT int Oscillator_Cross_Indi_ADXW_Shift = 0;                                      // Shift
 INPUT ENUM_IDATA_SOURCE_TYPE Oscillator_Cross_Indi_ADXW_SourceType = IDATA_BUILTIN;  // Source type
 INPUT_GROUP("Oscillator strategy: MACD indicator params");
-INPUT ENUM_SIGNAL_LINE Oscillator_Cross_Indi_MACD_Fast_Line = LINE_SIGNAL;  // Fast line
-INPUT ENUM_SIGNAL_LINE Oscillator_Cross_Indi_MACD_Slow_Line = LINE_MAIN;    // Slow line
-INPUT int Oscillator_Indi_MACD_Period_Fast = 6;                             // Period Fast
-INPUT int Oscillator_Indi_MACD_Period_Slow = 34;                            // Period Slow
-INPUT int Oscillator_Indi_MACD_Period_Signal = 10;                          // Period Signal
-INPUT ENUM_APPLIED_PRICE Oscillator_Indi_MACD_Applied_Price = PRICE_OPEN;   // Applied Price
-INPUT int Oscillator_Indi_MACD_Shift = 0;                                   // Shift
+INPUT ENUM_SIGNAL_LINE Oscillator_Cross_Indi_MACD_Fast_Line = LINE_SIGNAL;       // Fast line
+INPUT ENUM_SIGNAL_LINE Oscillator_Cross_Indi_MACD_Slow_Line = LINE_MAIN;         // Slow line
+INPUT int Oscillator_Cross_Indi_MACD_Period_Fast = 6;                            // Period Fast
+INPUT int Oscillator_Cross_Indi_MACD_Period_Slow = 34;                           // Period Slow
+INPUT int Oscillator_Cross_Indi_MACD_Period_Signal = 10;                         // Period Signal
+INPUT ENUM_APPLIED_PRICE Oscillator_Cross_Indi_MACD_Applied_Price = PRICE_OPEN;  // Applied Price
+INPUT int Oscillator_Cross_Indi_MACD_Shift = 0;                                  // Shift
 INPUT_GROUP("Oscillator strategy: RVI indicator params");
 INPUT ENUM_SIGNAL_LINE Oscillator_Cross_Indi_RVI_Fast_Line = LINE_SIGNAL;           // Fast line
 INPUT ENUM_SIGNAL_LINE Oscillator_Cross_Indi_RVI_Slow_Line = LINE_MAIN;             // Slow line
-INPUT unsigned int Oscillator_Indi_RVI_Period = 12;                                 // Averaging period
-INPUT int Oscillator_Indi_RVI_Shift = 0;                                            // Shift
+INPUT unsigned int Oscillator_Cross_Indi_RVI_Period = 12;                           // Averaging period
+INPUT int Oscillator_Cross_Indi_RVI_Shift = 0;                                      // Shift
 INPUT ENUM_IDATA_SOURCE_TYPE Oscillator_Cross_Indi_RVI_SourceType = IDATA_BUILTIN;  // Source type
 
 // Structs.
@@ -171,9 +171,9 @@ class Stg_Oscillator_Cross : public Strategy {
       }
       case STG_OSCILLATOR_CROSS_TYPE_MACD:  // MACD
       {
-        IndiMACDParams _indi_params(::Oscillator_Indi_MACD_Period_Fast, ::Oscillator_Indi_MACD_Period_Slow,
-                                    ::Oscillator_Indi_MACD_Period_Signal, ::Oscillator_Indi_MACD_Applied_Price,
-                                    ::Oscillator_Indi_MACD_Shift);
+        IndiMACDParams _indi_params(::Oscillator_Cross_Indi_MACD_Period_Fast, ::Oscillator_Cross_Indi_MACD_Period_Slow,
+                                    ::Oscillator_Cross_Indi_MACD_Period_Signal,
+                                    ::Oscillator_Cross_Indi_MACD_Applied_Price, ::Oscillator_Cross_Indi_MACD_Shift);
         _indi_params.SetTf(Get<ENUM_TIMEFRAMES>(STRAT_PARAM_TF));
         SetIndicator(new Indi_MACD(_indi_params), ::Oscillator_Cross_Type);
         ssparams.SetLineFast((uint)Oscillator_Cross_Indi_MACD_Fast_Line);
@@ -182,7 +182,7 @@ class Stg_Oscillator_Cross : public Strategy {
       }
       case STG_OSCILLATOR_CROSS_TYPE_RVI:  // RVI
       {
-        IndiRVIParams _indi_params(::Oscillator_Indi_RVI_Period, ::Oscillator_Indi_RVI_Shift);
+        IndiRVIParams _indi_params(::Oscillator_Cross_Indi_RVI_Period, ::Oscillator_Cross_Indi_RVI_Shift);
         _indi_params.SetDataSourceType(::Oscillator_Cross_Indi_RVI_SourceType);
         _indi_params.SetTf(Get<ENUM_TIMEFRAMES>(STRAT_PARAM_TF));
         SetIndicator(new Indi_RVI(_indi_params), ::Oscillator_Cross_Type);
