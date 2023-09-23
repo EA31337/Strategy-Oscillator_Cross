@@ -26,9 +26,9 @@ input bool Info_On_Chart = true;          // Display info on chart.
 #include "Stg_Oscillator_Cross.mqh"
 
 // Defines.
-#define ea_name "Strategy Oscillator_Cross"
+#define ea_name "Strategy Oscillator Cross"
 #define ea_version "2.000"
-#define ea_desc "Strategy based on EA31337 framework."
+#define ea_desc "Strategy based on selected oscillator-type line-crossable multi-valued indicators."
 #define ea_link "https://github.com/EA31337/Strategy-Oscillator_Cross"
 #define ea_author "EA31337 Ltd"
 

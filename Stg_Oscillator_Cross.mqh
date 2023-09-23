@@ -1,6 +1,6 @@
 /**
  * @file
- * Implements Oscillator Cross strategy based on the Oscillator Cross indicator.
+ * Implements Oscillator Cross strategy.
  */
 
 // Enums.
@@ -77,11 +77,11 @@ struct Stg_Oscillator_Cross_Params_Defaults : StgParams {
                   ::Oscillator_Cross_Shift),
         line_fast(0),
         line_slow(0) {
-    Set(STRAT_PARAM_LS, Oscillator_Cross_LotSize);
-    Set(STRAT_PARAM_OCL, Oscillator_Cross_OrderCloseLoss);
-    Set(STRAT_PARAM_OCP, Oscillator_Cross_OrderCloseProfit);
-    Set(STRAT_PARAM_OCT, Oscillator_Cross_OrderCloseTime);
-    Set(STRAT_PARAM_SOFT, Oscillator_Cross_SignalOpenFilterTime);
+    Set(STRAT_PARAM_LS, ::Oscillator_Cross_LotSize);
+    Set(STRAT_PARAM_OCL, ::Oscillator_Cross_OrderCloseLoss);
+    Set(STRAT_PARAM_OCP, ::Oscillator_Cross_OrderCloseProfit);
+    Set(STRAT_PARAM_OCT, ::Oscillator_Cross_OrderCloseTime);
+    Set(STRAT_PARAM_SOFT, ::Oscillator_Cross_SignalOpenFilterTime);
   }
   // Getters.
   uint GetLineFast() { return line_fast; }
@@ -106,7 +106,7 @@ class Stg_Oscillator_Cross : public Strategy {
     // Initialize Strategy instance.
     ChartParams _cparams(_tf, _Symbol);
     TradeParams _tparams;
-    Stg_Oscillator_Cross *_strat = new Stg_Oscillator_Cross(_stg_params, _tparams, _cparams, "Oscillator_Cross");
+    Stg_Oscillator_Cross *_strat = new Stg_Oscillator_Cross(_stg_params, _tparams, _cparams, "Oscillator Cross");
     _strat.ssparams = stg_oscillator_cross_defaults;
     return _strat;
   }
@@ -116,7 +116,7 @@ class Stg_Oscillator_Cross : public Strategy {
    */
   bool IsValidEntry(IndicatorBase *_indi, int _shift = 0) {
     bool _result = true;
-    switch (Oscillator_Cross_Type) {
+    switch (::Oscillator_Cross_Type) {
       case STG_OSCILLATOR_CROSS_TYPE_ADX:
         _result &= dynamic_cast<Indi_ADX *>(_indi).GetFlag(INDI_ENTRY_FLAG_IS_VALID, _shift) &&
                    dynamic_cast<Indi_ADX *>(_indi).GetFlag(INDI_ENTRY_FLAG_IS_VALID, _shift + 1);
