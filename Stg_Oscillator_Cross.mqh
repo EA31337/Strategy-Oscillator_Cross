@@ -56,6 +56,7 @@ INPUT int Oscillator_Cross_Indi_MACD_Period_Slow = 34;                          
 INPUT int Oscillator_Cross_Indi_MACD_Period_Signal = 10;                         // Period Signal
 INPUT ENUM_APPLIED_PRICE Oscillator_Cross_Indi_MACD_Applied_Price = PRICE_OPEN;  // Applied Price
 INPUT int Oscillator_Cross_Indi_MACD_Shift = 0;                                  // Shift
+INPUT ENUM_IDATA_SOURCE_TYPE Oscillator_Cross_Indi_MACD_SourceType = IDATA_BUILTIN;  // Source type
 INPUT_GROUP("Oscillator strategy: RVI indicator params");
 INPUT ENUM_SIGNAL_LINE Oscillator_Cross_Indi_RVI_Fast_Line = LINE_SIGNAL;           // Fast line
 INPUT ENUM_SIGNAL_LINE Oscillator_Cross_Indi_RVI_Slow_Line = LINE_MAIN;             // Slow line
@@ -149,9 +150,8 @@ class Stg_Oscillator_Cross : public Strategy {
       {
         IndiADXParams _adx_params(::Oscillator_Cross_Indi_ADX_Period, ::Oscillator_Cross_Indi_ADX_AppliedPrice,
                                   ::Oscillator_Cross_Indi_ADX_Shift);
-        _adx_params.SetDataSourceType(::Oscillator_Cross_Indi_ADX_SourceType);
         _adx_params.SetTf(Get<ENUM_TIMEFRAMES>(STRAT_PARAM_TF));
-        SetIndicator(new Indi_ADX(_adx_params), ::Oscillator_Cross_Type);
+        SetIndicator(new Indi_ADX(_adx_params, ::Oscillator_Cross_Indi_ADX_SourceType), ::Oscillator_Cross_Type);
         // sparams.SetLineFast(0); // @todo: Fix Strategy to allow custom params stored in sparam.
         ssparams.SetLineFast((uint)Oscillator_Cross_Indi_ADX_Fast_Line);
         ssparams.SetLineSlow((uint)Oscillator_Cross_Indi_ADX_Slow_Line);
@@ -161,9 +161,8 @@ class Stg_Oscillator_Cross : public Strategy {
       {
         IndiADXWParams _adxw_params(::Oscillator_Cross_Indi_ADXW_Period, ::Oscillator_Cross_Indi_ADXW_AppliedPrice,
                                     ::Oscillator_Cross_Indi_ADXW_Shift);
-        _adxw_params.SetDataSourceType(::Oscillator_Cross_Indi_ADXW_SourceType);
         _adxw_params.SetTf(Get<ENUM_TIMEFRAMES>(STRAT_PARAM_TF));
-        SetIndicator(new Indi_ADXW(_adxw_params), ::Oscillator_Cross_Type);
+        SetIndicator(new Indi_ADXW(_adxw_params, ::Oscillator_Cross_Indi_ADXW_SourceType), ::Oscillator_Cross_Type);
         // sparams.SetLineFast(0); // @todo: Fix Strategy to allow custom params stored in sparam.
         ssparams.SetLineFast((uint)Oscillator_Cross_Indi_ADXW_Fast_Line);
         ssparams.SetLineSlow((uint)Oscillator_Cross_Indi_ADXW_Slow_Line);
@@ -175,7 +174,7 @@ class Stg_Oscillator_Cross : public Strategy {
                                     ::Oscillator_Cross_Indi_MACD_Period_Signal,
                                     ::Oscillator_Cross_Indi_MACD_Applied_Price, ::Oscillator_Cross_Indi_MACD_Shift);
         _indi_params.SetTf(Get<ENUM_TIMEFRAMES>(STRAT_PARAM_TF));
-        SetIndicator(new Indi_MACD(_indi_params), ::Oscillator_Cross_Type);
+        SetIndicator(new Indi_MACD(_indi_params, ::Oscillator_Cross_Indi_MACD_SourceType), ::Oscillator_Cross_Type);
         ssparams.SetLineFast((uint)Oscillator_Cross_Indi_MACD_Fast_Line);
         ssparams.SetLineSlow((uint)Oscillator_Cross_Indi_MACD_Slow_Line);
         break;
@@ -183,9 +182,8 @@ class Stg_Oscillator_Cross : public Strategy {
       case STG_OSCILLATOR_CROSS_TYPE_RVI:  // RVI
       {
         IndiRVIParams _indi_params(::Oscillator_Cross_Indi_RVI_Period, ::Oscillator_Cross_Indi_RVI_Shift);
-        _indi_params.SetDataSourceType(::Oscillator_Cross_Indi_RVI_SourceType);
         _indi_params.SetTf(Get<ENUM_TIMEFRAMES>(STRAT_PARAM_TF));
-        SetIndicator(new Indi_RVI(_indi_params), ::Oscillator_Cross_Type);
+        SetIndicator(new Indi_RVI(_indi_params, ::Oscillator_Cross_Indi_RVI_SourceType), ::Oscillator_Cross_Type);
         ssparams.SetLineFast((uint)Oscillator_Cross_Indi_RVI_Fast_Line);
         ssparams.SetLineSlow((uint)Oscillator_Cross_Indi_RVI_Slow_Line);
         break;
@@ -200,7 +198,7 @@ class Stg_Oscillator_Cross : public Strategy {
    * Check strategy's opening signal.
    */
   bool SignalOpen(ENUM_ORDER_TYPE _cmd, int _method, float _level = 0.0f, int _shift = 0) {
-    IndicatorBase *_indi = GetIndicator(::Oscillator_Cross_Type);
+    IndicatorData *_indi = GetIndicator(::Oscillator_Cross_Type);
     // uint _ishift = _indi.GetShift(); // @todo
     bool _result = Oscillator_Cross_Type != STG_OSCILLATOR_CROSS_TYPE_0_NONE && IsValidEntry(_indi, _shift);
     if (!_result) {
